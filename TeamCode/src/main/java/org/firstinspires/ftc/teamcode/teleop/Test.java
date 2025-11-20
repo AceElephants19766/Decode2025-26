@@ -1,28 +1,41 @@
 package org.firstinspires.ftc.teamcode.teleop;
 import com.arcrobotics.ftclib.command.CommandOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.teamcode.subsystem.Gary;
-
-@TeleOp
+@TeleOp(name = "Raw Motor Test", group = "Test")
 public class Test extends CommandOpMode {
-    public Gary gary;
+
+    DcMotor motor;
+    DcMotor motor2;
+
     @Override
     public void initialize() {
-        gary = new Gary(hardwareMap);
+         motor = hardwareMap.get(DcMotor.class, "motor");
+         motor2 = hardwareMap.get(DcMotor.class, "motor1");
 
     }
 
     @Override
-    public void run(){
+    public void run() {
         super.run();
-        if (gamepad1.right_stick_y > 0.1)
-            gary.setPower(gamepad1.right_stick_y);
 
-        else if (gamepad1.right_stick_y < -0.1)
-            gary.setPower(gamepad1.right_stick_y);
+        // הפעלה בעוצמה מלאה
+        motor.setPower(1.0);
+        motor2.setPower(-1.0);
+        telemetry.addData("Power", motor.getPower());
+        telemetry.update();
 
-        else
-            gary.stop();
+    }
+
+    @Override
+    public void reset() {
+        super.reset();
+        // עצירה בסוף
+        motor.setPower(0);
+        motor2.setPower(0);
     }
 }
