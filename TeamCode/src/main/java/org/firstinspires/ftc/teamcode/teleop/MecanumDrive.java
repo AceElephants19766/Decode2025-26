@@ -7,26 +7,32 @@ import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.commands.Drive;
+import org.firstinspires.ftc.teamcode.commands.SorterSetPosition;
+import org.firstinspires.ftc.teamcode.commands.SorterSetPositionShorter;
 import org.firstinspires.ftc.teamcode.commands.learning.MotorStart;
 import org.firstinspires.ftc.teamcode.commands.learning.MotorStop;
 import org.firstinspires.ftc.teamcode.subsystem.GaryDrivetrain;
+import org.firstinspires.ftc.teamcode.subsystem.TwoMotorDrive;
+
 
 @TeleOp
 public class MecanumDrive extends CommandOpMode {
 
-    private GaryDrivetrain garyDrivetrain;
+    private TwoMotorDrive twoMotorDrive;
     private GamepadEx gamepadEx1;
 
     @Override
     public void initialize() {
 
-        garyDrivetrain = new GaryDrivetrain(hardwareMap);
+        twoMotorDrive = new TwoMotorDrive(hardwareMap);
         gamepadEx1 = new GamepadEx(gamepad1);
 
 /*        gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(new MotorStart(garyDrivetrain));
         gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(new MotorStop(garyDrivetrain));*/
 
-        CommandScheduler.getInstance().setDefaultCommand(garyDrivetrain, new Drive(garyDrivetrain, gamepad1));
+        gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(new SorterSetPositionShorter())
+
+        CommandScheduler.getInstance().setDefaultCommand(twoMotorDrive, new Drive(twoMotorDrive, gamepad1));
     }
 
     @Override
@@ -38,7 +44,6 @@ public class MecanumDrive extends CommandOpMode {
 //        telemetry.addData("frontLeftPower", frontLeft.getPower());
 
         telemetry.update();
-
 
     }
 
