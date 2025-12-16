@@ -7,11 +7,7 @@ import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.commands.Drive;
-import org.firstinspires.ftc.teamcode.commands.SorterSetPosition;
-import org.firstinspires.ftc.teamcode.commands.SorterSetPositionShorter;
-import org.firstinspires.ftc.teamcode.commands.learning.MotorStart;
-import org.firstinspires.ftc.teamcode.commands.learning.MotorStop;
-import org.firstinspires.ftc.teamcode.subsystem.GaryDrivetrain;
+import org.firstinspires.ftc.teamcode.commands.learning.SorterSetPositionShorter;
 import org.firstinspires.ftc.teamcode.subsystem.TwoMotorDrive;
 
 
@@ -30,7 +26,7 @@ public class MecanumDrive extends CommandOpMode {
 /*        gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(new MotorStart(garyDrivetrain));
         gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(new MotorStop(garyDrivetrain));*/
 
-        gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(new SorterSetPositionShorter())
+        gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(new SorterSetPositionShorter());
 
         CommandScheduler.getInstance().setDefaultCommand(twoMotorDrive, new Drive(twoMotorDrive, gamepad1));
     }
