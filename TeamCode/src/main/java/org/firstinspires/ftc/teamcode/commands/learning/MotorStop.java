@@ -15,7 +15,7 @@ public class MotorStop extends CommandBase {
 
     @Override
     public void initialize() {
-        garyDrivetrain.drive(0, 0, 0);
+        garyDrivetrain.arcadeDrive(0, 0, 0);
     }
 
     @Override

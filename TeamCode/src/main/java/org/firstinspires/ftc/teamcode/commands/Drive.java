@@ -4,36 +4,21 @@ import com.arcrobotics.ftclib.command.CommandBase;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.teamcode.subsystem.GaryDrivetrain;
-import org.firstinspires.ftc.teamcode.subsystem.TwoMotorDrive;
 
 public class Drive extends CommandBase {
 
-    private final TwoMotorDrive twoMotorDrive;
+    private final GaryDrivetrain garyDrivetrain;
     private final Gamepad gamepad1;
 
-    public Drive(TwoMotorDrive twoMotorDrive, Gamepad gamepad1) {
-        this.twoMotorDrive =   twoMotorDrive;
+    public Drive(GaryDrivetrain garyDrivetrain, Gamepad gamepad1) {
+        this.garyDrivetrain = garyDrivetrain;
         this.gamepad1 = gamepad1;
-        addRequirements(twoMotorDrive);
-    }
-
-    @Override
-    public void initialize() {
-
+        addRequirements(garyDrivetrain);
     }
 
     @Override
     public void execute() {
-        twoMotorDrive.drive(gamepad1);
+        garyDrivetrain.fieldOrientedDrive(gamepad1);
     }
 
-    @Override
-    public boolean isFinished() {
-        return false;
-    }
-
-    @Override
-    public void end(boolean interrupted) {
-
-    }
 }

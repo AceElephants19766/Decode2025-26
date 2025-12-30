@@ -15,7 +15,7 @@ public class MotorStart extends CommandBase {
 
     @Override
     public void initialize() {
-        garyDrivetrain.drive(0, 1, 0);
+        garyDrivetrain.arcadeDrive(0, 1, 0);
     }
 
     @Override

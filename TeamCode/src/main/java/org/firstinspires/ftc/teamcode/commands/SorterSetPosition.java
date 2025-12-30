@@ -12,7 +12,7 @@ public class SorterSetPosition extends CommandBase {
     private final double position;
     private final Sorter sorter;
 
-    public SorterSetPosition(double position, Sorter sorter) {
+    public SorterSetPosition(Sorter sorter, double position) {
         this.sorter = sorter;
         this.position = position;
     }
