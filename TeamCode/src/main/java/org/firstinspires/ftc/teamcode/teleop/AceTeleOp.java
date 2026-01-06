@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.teleop;
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.CommandScheduler;
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -9,10 +10,9 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.commands.Drive;
 import org.firstinspires.ftc.teamcode.commands.IntakeActivate;
 import org.firstinspires.ftc.teamcode.commands.IntakeDeactivate;
-import org.firstinspires.ftc.teamcode.commands.SorterSetPosition;
+import org.firstinspires.ftc.teamcode.subsystem.ElevationSpoon;
 import org.firstinspires.ftc.teamcode.subsystem.GaryDrivetrain;
 import org.firstinspires.ftc.teamcode.subsystem.Intake;
-import org.firstinspires.ftc.teamcode.subsystem.Sorter;
 
 
 @TeleOp
@@ -20,22 +20,29 @@ public class AceTeleOp extends CommandOpMode {
 
     private GaryDrivetrain garyDrivetrain;
     private GamepadEx gamepadEx1;
-    private Sorter sorter;
     private Intake intake;
+    private ElevationSpoon elevationSpoon;
 
     @Override
     public void initialize() {
 
         garyDrivetrain = new GaryDrivetrain(hardwareMap);
         gamepadEx1 = new GamepadEx(gamepad1);
-        sorter = new Sorter(hardwareMap);
         intake = new Intake(hardwareMap);
+        elevationSpoon = new ElevationSpoon(hardwareMap);
 
-/*        gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(new MotorStart(garyDrivetrain));
-        gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(new MotorStop(garyDrivetrain));*/
+        gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
+                new InstantCommand(
+                        () -> elevationSpoon.down()
+                )
+        );
 
-        gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(new SorterSetPosition(sorter, 0.5));
-        gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(new SorterSetPosition(sorter, 1));
+        gamepadEx1.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
+                new InstantCommand(
+                        () -> elevationSpoon.up()
+                )
+        );
+
         gamepadEx1.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).toggleWhenPressed(
                 new IntakeActivate(intake),
                 new IntakeDeactivate(intake)//
