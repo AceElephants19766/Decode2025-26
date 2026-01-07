@@ -9,15 +9,26 @@ public class Spindexer extends SubsystemBase {
     private final Servo servo;
 
     private final double ZERO = 0;
+    private final double ONE = 0;
+    private final double TWO = 0;
 
     public Spindexer(HardwareMap hardwareMap) {
         servo = hardwareMap.get(Servo.class, "spindexerServo");
     }
+
     public void setPosition(double position) {
         servo.setPosition(position);
     }
 
     public void zero() {
         setPosition(ZERO);
+    }
+
+    public void one() {
+        setPosition(ONE);
+    }
+
+    public void two() {
+        setPosition(TWO);
     }
 }

@@ -13,6 +13,7 @@ import org.firstinspires.ftc.teamcode.commands.IntakeDeactivate;
 import org.firstinspires.ftc.teamcode.subsystem.ElevationSpoon;
 import org.firstinspires.ftc.teamcode.subsystem.GaryDrivetrain;
 import org.firstinspires.ftc.teamcode.subsystem.Intake;
+import org.firstinspires.ftc.teamcode.subsystem.Shooter;
 
 
 @TeleOp
@@ -22,6 +23,7 @@ public class AceTeleOp extends CommandOpMode {
     private GamepadEx gamepadEx1;
     private Intake intake;
     private ElevationSpoon elevationSpoon;
+    private Shooter shooter;
 
     @Override
     public void initialize() {
@@ -30,6 +32,7 @@ public class AceTeleOp extends CommandOpMode {
         gamepadEx1 = new GamepadEx(gamepad1);
         intake = new Intake(hardwareMap);
         elevationSpoon = new ElevationSpoon(hardwareMap);
+        shooter = new Shooter(hardwareMap);
 
         gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
                 new InstantCommand(
@@ -46,6 +49,15 @@ public class AceTeleOp extends CommandOpMode {
         gamepadEx1.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).toggleWhenPressed(
                 new IntakeActivate(intake),
                 new IntakeDeactivate(intake)//
+        );
+
+        gamepadEx1.getGamepadButton(GamepadKeys.Button.B).toggleWhenPressed(
+                new InstantCommand(
+                        () -> shooter.setPower(1)
+                ),
+                new InstantCommand(
+                        () -> shooter.setPower(0)
+                )
         );
 
         CommandScheduler.getInstance().setDefaultCommand(garyDrivetrain, new Drive(garyDrivetrain, gamepad1));
