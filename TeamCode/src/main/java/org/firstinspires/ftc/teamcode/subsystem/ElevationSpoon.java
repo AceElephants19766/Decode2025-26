@@ -9,10 +9,10 @@ public class ElevationSpoon extends SubsystemBase {
     private final Servo rightServo;
     private final Servo leftServo;
 
-    private final double DOWN = 0;
-    private final double UP = 0.4549;
-    private final double OFFSET_LEFT = 0.170;
-    private final double OFFSET_RIGHT = 0.1;
+    private final double DOWN = 0.67;
+    private final double UP = 1;
+    private final double OFFSET_LEFT = 0;
+    private final double OFFSET_RIGHT = 0;
 
     public ElevationSpoon(HardwareMap hardwareMap) {
         leftServo = hardwareMap.get(Servo.class, "leftServo");
@@ -21,7 +21,11 @@ public class ElevationSpoon extends SubsystemBase {
 
     public void setPosition(double position) {
         leftServo.setPosition(position + OFFSET_LEFT );
-        rightServo.setPosition(1 - position - OFFSET_RIGHT);
+        rightServo.setPosition(1 - position + OFFSET_RIGHT);
+    }
+
+    public double getPosition() {
+        return leftServo.getPosition();
     }
 
     public void down() {

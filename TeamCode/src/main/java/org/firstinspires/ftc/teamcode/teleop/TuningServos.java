@@ -8,18 +8,22 @@ import com.qualcomm.robotcore.hardware.Servo;
 @TeleOp
 public class TuningServos extends CommandOpMode {
 
-    private Servo servo;
+    private Servo leftServo;
+    private Servo rightServo;
 
     @Override
     public void initialize() {
-        servo = hardwareMap.get(Servo.class, "servo") ;
+        leftServo = hardwareMap.get(Servo.class, "leftServo");
+        rightServo = hardwareMap.get(Servo.class, "rightServo");
     }
 
     @Override
     public void run() {
         super.run();
 
-        servo.setPosition(gamepad1.right_trigger);
+        rightServo.setPosition(1-  gamepad1.right_trigger);
+        leftServo.setPosition(gamepad1.right_trigger);
+
         telemetry.addData("rightTrigger", gamepad1.right_trigger);
 
         telemetry.update();

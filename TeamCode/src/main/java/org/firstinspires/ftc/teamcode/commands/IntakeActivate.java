@@ -15,7 +15,7 @@ public class IntakeActivate extends CommandBase {
 
     @Override
     public void initialize() {
-        intake.setPower(0.85);
+        intake.setPower(1);
 
     }
 
