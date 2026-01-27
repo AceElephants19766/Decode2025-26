@@ -27,7 +27,7 @@ public class GaryDrivetrain extends SubsystemBase {
         imu.initialize(
                 new BNO055IMUNew.Parameters(
                         new RevHubOrientationOnRobot(
-                                RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
+                                RevHubOrientationOnRobot.LogoFacingDirection.RIGHT,
                                 RevHubOrientationOnRobot.UsbFacingDirection.DOWN
                         )
                 )
@@ -39,9 +39,8 @@ public class GaryDrivetrain extends SubsystemBase {
         backRight = hardwareMap.get(DcMotorEx.class, "backRight");
         backLeft = hardwareMap.get(DcMotorEx.class, "backLeft");
 
-        backLeft.setDirection(DcMotorSimple.Direction.REVERSE
-        );
-        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
         frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -68,7 +67,7 @@ public class GaryDrivetrain extends SubsystemBase {
         double zSpin = gamepad1.right_stick_x;
 
         Vector2d joystickVec = new Vector2d(x,y);
-        Vector2d fieldOrientedVec = joystickVec.rotateBy(-getAngleYaw());
+        Vector2d fieldOrientedVec = joystickVec.rotateBy(getAngleYaw());
 
         arcadeDrive(fieldOrientedVec.getX(), fieldOrientedVec.getY(), zSpin);
     }

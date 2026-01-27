@@ -17,11 +17,8 @@ import org.firstinspires.ftc.teamcode.commands.ShooterGetToRPM;
 import org.firstinspires.ftc.teamcode.subsystem.ElevationSpoon;
 import org.firstinspires.ftc.teamcode.subsystem.GaryDrivetrain;
 import org.firstinspires.ftc.teamcode.subsystem.Intake;
-import org.firstinspires.ftc.teamcode.subsystem.Shooter;
 import org.firstinspires.ftc.teamcode.subsystem.ShooterPID;
 import org.firstinspires.ftc.teamcode.subsystem.Spindexer;
-
-import java.lang.annotation.Target;
 
 
 @TeleOp
@@ -46,21 +43,21 @@ public class AceTeleOp extends CommandOpMode {
         shooterPID = new ShooterPID(hardwareMap);
         spindexer = new Spindexer(hardwareMap);
 
-
         gamepadEx2.getGamepadButton(GamepadKeys.Button.A).whenPressed(
-                new SequentialCommandGroup(
-                        new InstantCommand(
-                                () -> elevationSpoon.up()
-                        ),
-                        new WaitCommand(650),
-                        new InstantCommand(
-                                () -> elevationSpoon.down()
-                        )
+                new InstantCommand(
+                        () -> elevationSpoon.up(), elevationSpoon
+                )
+
+        );
+
+        gamepadEx2.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
+                new InstantCommand(
+                        () -> elevationSpoon.down(), elevationSpoon
                 )
         );
 
         gamepadEx1.getGamepadButton(GamepadKeys.Button.X).toggleWhenPressed(
-                new ShooterGetToRPM(shooterPID,3000)
+                new ShooterGetToRPM(shooterPID, 3000)
         );
 
 
@@ -84,27 +81,23 @@ public class AceTeleOp extends CommandOpMode {
                 )
         );
 
-        gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(
-                new InstantCommand(
-                        () -> spindexer.setPosition(spindexer.ZERO)
+      gamepadEx2.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(
+              new InstantCommand(
+                      () ->  spindexer.positionSpindexerUp()
                 )
         );
 
-        gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(
-                new InstantCommand(
-                        () -> spindexer.setPosition(spindexer.ONE)
-                )
-        );
+      gamepadEx2.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(
+              new InstantCommand(
+                      () -> spindexer.positionSpindexerDown()
+              )
+      );
 
-        gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(
-                new InstantCommand(
-                        () -> spindexer.setPosition(spindexer.TWO)
-                )
-        );
 
         CommandScheduler.getInstance().setDefaultCommand(garyDrivetrain, new Drive(garyDrivetrain, gamepad1));
 
-
+        //todo: make sure legal
+        spindexer.updatePos();
 
     }
 
@@ -120,8 +113,8 @@ public class AceTeleOp extends CommandOpMode {
         telemetry.addData("servoPosition", elevationSpoon.getPosition());
 //        telemetry.addData("frontLeftPower", frontLeft.getPower());
 
-          telemetry.update();
-          FtcDashboard.getInstance().getTelemetry().update();
+        telemetry.update();
+        FtcDashboard.getInstance().getTelemetry().update();
 
     }
 

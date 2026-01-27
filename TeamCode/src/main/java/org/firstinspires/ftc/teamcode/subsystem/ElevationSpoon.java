@@ -9,7 +9,7 @@ public class ElevationSpoon extends SubsystemBase {
     private final Servo rightServo;
     private final Servo leftServo;
 
-    private final double DOWN = 0.67;
+    private final double DOWN = 0.4;
     private final double UP = 1;
     private final double OFFSET_LEFT = 0;
     private final double OFFSET_RIGHT = 0;
@@ -20,8 +20,8 @@ public class ElevationSpoon extends SubsystemBase {
     }
 
     public void setPosition(double position) {
-        leftServo.setPosition(position + OFFSET_LEFT );
-        rightServo.setPosition(1 - position + OFFSET_RIGHT);
+        leftServo.setPosition(1-position + OFFSET_LEFT );
+        rightServo.setPosition(position + OFFSET_RIGHT);
     }
 
     public double getPosition() {

@@ -8,9 +8,25 @@ public class Spindexer extends SubsystemBase {
 
     private final Servo servo;
 
-    public final double ZERO = 0.;
-    public final double ONE = 0.45;
-    public final double TWO = 0.87;
+    public enum Positions {
+
+        ZERO(0),
+        ONE(0.45),
+        TWO(0.87);
+
+        private double val;
+
+        Positions(double val) {
+            this.val = val;
+        }
+
+        public double getVal() {
+            return val;
+        }
+    }
+
+    private Positions[] positionsArr = Positions.values();
+    private int indexer = 0;
 
     public Spindexer(HardwareMap hardwareMap) {
         servo = hardwareMap.get(Servo.class, "spindexerServo");
@@ -24,17 +40,19 @@ public class Spindexer extends SubsystemBase {
         return servo.getPosition();
     }
 
-    public void zero() {
-        setPosition(ZERO);
+    public void positionSpindexerUp() {
+        if(indexer + 1 <= 2) indexer++;
+        updatePos();
     }
 
-    public void one() {
-
-        setPosition(ONE);
+    public void positionSpindexerDown() {
+        if(indexer - 1 >= 0) indexer--;
+        updatePos();
     }
 
-    public void two() {
-
-        setPosition(TWO);
+    public void updatePos() {
+        servo.setPosition(positionsArr[indexer].getVal());
     }
 }
+
+

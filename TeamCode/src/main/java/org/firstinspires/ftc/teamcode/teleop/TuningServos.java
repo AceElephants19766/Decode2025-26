@@ -21,8 +21,8 @@ public class TuningServos extends CommandOpMode {
     public void run() {
         super.run();
 
-        rightServo.setPosition(1-  gamepad1.right_trigger);
-        leftServo.setPosition(gamepad1.right_trigger);
+        rightServo.setPosition(gamepad1.right_trigger);
+        leftServo.setPosition(1-gamepad1.right_trigger);
 
         telemetry.addData("rightTrigger", gamepad1.right_trigger);
 
