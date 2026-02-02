@@ -14,9 +14,10 @@ public class ShooterPID extends SubsystemBase {
     private final DcMotorEx motorLeft;
     public final PIDController pidController;
 
-    public static double kP = 0;
+    public static double kP = 0.2;
     public static double kI = 0;
-    public static double kD = 0;
+    public static double kD = 0.0005;
+    private double kF = 0.05;
 
     private final double TICKS_PER_REVOLUTION = 28;
     private final double RATIO = 30./20.;
@@ -37,11 +38,19 @@ public class ShooterPID extends SubsystemBase {
         motorLeft.setPower(power);
     }
 
+    public double getkF() {
+        return kF;
+    }
+
     @Override
     public void periodic() {
         FtcDashboard.getInstance().getTelemetry().addData(
                 "RPM",
                 getRPM()
+        );
+        FtcDashboard.getInstance().getTelemetry().addData(
+                "target",
+                pidController.getSetPoint()
         );
     }
 }

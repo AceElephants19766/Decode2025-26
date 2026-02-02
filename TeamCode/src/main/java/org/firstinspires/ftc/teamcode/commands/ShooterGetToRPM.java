@@ -25,9 +25,9 @@ public class ShooterGetToRPM extends CommandBase {
     @Override
     public void execute() {
         shooterPID.setPower(
-                shooterPID.pidController.calculate(
+                -shooterPID.pidController.calculate(
                         shooterPID.getRPM()
-                )
+                ) + shooterPID.getkF()
         );
     }
 

@@ -56,8 +56,8 @@ public class AceTeleOp extends CommandOpMode {
                 )
         );
 
-        gamepadEx1.getGamepadButton(GamepadKeys.Button.X).toggleWhenPressed(
-                new ShooterGetToRPM(shooterPID, 3000)
+        gamepadEx2.getGamepadButton(GamepadKeys.Button.X).toggleWhenPressed(
+                new ShooterGetToRPM(shooterPID, 5500)
         );
 
 
