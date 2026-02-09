@@ -21,7 +21,7 @@ public class ShooterPID extends SubsystemBase {
 
     private final double TICKS_PER_REVOLUTION = 28;
     private final double RATIO = 30./20.;
-
+    private final double SECOND_TO_MINUTE = 60;
     public ShooterPID(HardwareMap hardwareMap) {
 //        motorRight = hardwareMap.get(DcMotorEx.class, "motorRight");
         motorLeft = hardwareMap.get(DcMotorEx.class, "motorLeft");
@@ -30,7 +30,7 @@ public class ShooterPID extends SubsystemBase {
     }
 
     public double getRPM() {
-        return (motorLeft.getVelocity() / TICKS_PER_REVOLUTION) * 60 * RATIO;
+        return (motorLeft.getVelocity() / TICKS_PER_REVOLUTION) * SECOND_TO_MINUTE * RATIO;
     }
 
     public void setPower(double power) {
