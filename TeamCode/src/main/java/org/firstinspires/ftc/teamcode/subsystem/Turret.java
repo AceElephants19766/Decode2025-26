@@ -20,7 +20,7 @@ public class Turret extends SubsystemBase {
     private double kF = 0.;
 
     //Constants
-
+    private final double REV_TO_ANGLE = 360;
     private final double TICKS_PER_REV = 167; //todo
     private final double RATIO = 1./2.; //todo
     public Turret(HardwareMap hardwareMap) {
@@ -29,7 +29,7 @@ public class Turret extends SubsystemBase {
     }
 
     public double getPosition() {
-        return (motor.getCurrentPosition() / TICKS_PER_REV) * RATIO;
+        return (motor.getCurrentPosition() / TICKS_PER_REV) * RATIO * REV_TO_ANGLE;
     }
     public void setPower(double power) {
         motor.setPower(power);

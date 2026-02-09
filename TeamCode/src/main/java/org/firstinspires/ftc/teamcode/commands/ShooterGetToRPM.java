@@ -8,8 +8,8 @@ import java.lang.annotation.Target;
 
 public class ShooterGetToRPM extends CommandBase {
 
-    private ShooterPID shooterPID;
-    private int target;
+    private final ShooterPID shooterPID;
+    private final double target;
 
     public ShooterGetToRPM(ShooterPID shooterPID, int target) {
         this.shooterPID = shooterPID;
