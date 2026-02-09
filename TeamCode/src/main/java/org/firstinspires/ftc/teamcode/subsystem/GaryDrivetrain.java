@@ -74,10 +74,12 @@ public class GaryDrivetrain extends SubsystemBase {
 
     public void arcadeDrive(double x, double y, double zSpin) {
 
-        frontLeft.setPower(y-x+zSpin);
-        frontRight.setPower(y+ x-zSpin);
-        backRight.setPower(y- x-zSpin);
-        backLeft.setPower(y+ x+zSpin);
+        double denominator = Math.max(Math.abs(x) + Math.abs(y) + Math.abs(zSpin), 1);
+
+        frontLeft.setPower((y - x + zSpin) / denominator);
+        frontRight.setPower((y + x - zSpin) / denominator);
+        backRight.setPower((y - x - zSpin) / denominator);
+        backLeft.setPower((y + x + zSpin) / denominator);
 
     }
 
