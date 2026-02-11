@@ -20,12 +20,12 @@ public class ShooterTest extends CommandOpMode {
         gamepadEx1 = new GamepadEx(gamepad1);
 
         gamepadEx1.getGamepadButton(GamepadKeys.Button.A).toggleWhenPressed(
-                new InstantCommand(() -> shooterMotor.setPower(0.5)),
+                new InstantCommand(() -> shooterMotor.setPower(1)),
                 new InstantCommand(() -> shooterMotor.setPower(0))
         );
 
         gamepadEx1.getGamepadButton(GamepadKeys.Button.B).toggleWhenPressed(
-                new InstantCommand(() -> shooterMotor.setPower(-0.5)),
+                new InstantCommand(() -> shooterMotor.setPower(-1)),
                 new InstantCommand(() -> shooterMotor.setPower(0))
         );
     }

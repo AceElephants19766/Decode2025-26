@@ -11,7 +11,6 @@ public class Turret extends SubsystemBase {
 
     //Hardware
     private final DcMotorEx motor;
-
     //Control
     private final PIDFController pidfController;
     public static double kP = 0.;
