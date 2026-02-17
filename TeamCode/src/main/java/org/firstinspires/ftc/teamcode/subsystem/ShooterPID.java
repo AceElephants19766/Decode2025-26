@@ -23,10 +23,11 @@ public class ShooterPID extends SubsystemBase {
     private final double TICKS_PER_REVOLUTION = 28;
     private final double RATIO = 20./20.;
     private final double SECOND_TO_MINUTE = 60;
+
     public ShooterPID(HardwareMap hardwareMap) {
         lowerMotor = hardwareMap.get(DcMotorEx.class, "lowerMotor");
         upperMotor = hardwareMap.get(DcMotorEx.class, "upperMotor");
-//        motorLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        upperMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         pidController = new PIDController(kP, kI, kD);
     }
 
