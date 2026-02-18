@@ -22,11 +22,19 @@ public class Auto extends CommandOpMode {
 
         moveForward = new SequentialCommandGroup(
                 new InstantCommand(
-                        () -> garyDrivetrain.arcadeDrive(0, 0.5, 0)
+                        () -> garyDrivetrain.getFollower().drivetrain.runDrive(
+                                new double[] {
+                                        0.5, 0.5, 0.5, 0.5
+                                }
+                        )
                 ),
                 new WaitCommand(1500),
                 new InstantCommand(
-                        () -> garyDrivetrain.arcadeDrive(0, 0, 0)
+                        () -> garyDrivetrain.getFollower().drivetrain.runDrive(
+                                new double[] {
+                                        0, 0, 0, 0
+                                }
+                        )
                 )
         );
 

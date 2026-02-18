@@ -6,11 +6,13 @@ import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
+import com.pedropathing.geometry.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.commands.Drive;
 import org.firstinspires.ftc.teamcode.commands.IntakeActivate;
 import org.firstinspires.ftc.teamcode.commands.IntakeDeactivate;
+import org.firstinspires.ftc.teamcode.commands.ResetIMU;
 import org.firstinspires.ftc.teamcode.commands.ShooterGetToRPM;
 import org.firstinspires.ftc.teamcode.subsystem.Conveyor;
 import org.firstinspires.ftc.teamcode.subsystem.GaryDrivetrain;
@@ -28,7 +30,7 @@ public class AceTeleOp extends CommandOpMode {
     private Intake intake;
     private Conveyor conveyor;
     private ShooterPID shooterPID;
- //   private Spindexer spindexer;
+    //   private Spindexer spindexer;
 
     @Override
     public void initialize() {
@@ -39,16 +41,18 @@ public class AceTeleOp extends CommandOpMode {
         intake = new Intake(hardwareMap);
         conveyor = new Conveyor(hardwareMap);
         shooterPID = new ShooterPID(hardwareMap);
-      //  spindexer = new Spindexer(hardwareMap);
+        //  spindexer = new Spindexer(hardwareMap);
 
-       gamepadEx2.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).toggleWhenPressed(
-               new InstantCommand(
-                       () -> conveyor.SetPower(-1)
-               ),
-               new InstantCommand(
-                       () -> conveyor.SetPower(0)
-               )
-       );
+        garyDrivetrain.getFollower().setStartingPose(new Pose());
+
+        gamepadEx2.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).toggleWhenPressed(
+                new InstantCommand(
+                        () -> conveyor.SetPower(-1)
+                ),
+                new InstantCommand(
+                        () -> conveyor.SetPower(0)
+                )
+        );
 
         gamepadEx2.getGamepadButton(GamepadKeys.Button.X).toggleWhenPressed(
                 new ShooterGetToRPM(shooterPID, -5500)
@@ -70,9 +74,7 @@ public class AceTeleOp extends CommandOpMode {
         );
 
         gamepadEx1.getGamepadButton(GamepadKeys.Button.START).whenPressed(
-                new InstantCommand(
-                        () -> garyDrivetrain.resetIMU()
-                )
+                new ResetIMU(garyDrivetrain)
         );
 
 //      gamepadEx2.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(
@@ -90,8 +92,8 @@ public class AceTeleOp extends CommandOpMode {
 
         CommandScheduler.getInstance().setDefaultCommand(garyDrivetrain, new Drive(garyDrivetrain, gamepad1));
 
-       //todo: make sure legal
-    //   spindexer.updatePos();
+        //todo: make sure legal
+        //   spindexer.updatePos();
 
     }
 
@@ -102,9 +104,9 @@ public class AceTeleOp extends CommandOpMode {
 //        telemetry.addData("RPM", shooterPID.getRPM());
 //        telemetry.addData("joystickX", gamepad2.right_stick_x);
 //        telemetry.addData("joystickY", gamepad2.right_stick_y);
-        telemetry.addData("imu angle", garyDrivetrain.getAngleYaw());
+        telemetry.addData("imu angle", garyDrivetrain.getFollower().getHeading());
 
-      //  telemetry.addData("servoPosition", conveyor.());
+        //  telemetry.addData("servoPosition", conveyor.());
 //        telemetry.addData("frontLeftPower", frontLeft.getPower());
 
         telemetry.update();
