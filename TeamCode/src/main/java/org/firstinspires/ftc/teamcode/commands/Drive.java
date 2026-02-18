@@ -18,16 +18,19 @@ public class Drive extends CommandBase {
 
     @Override
     public void initialize() {
-        garyDrivetrain.getFollower().setTeleOpDrive(
-                gamepad1.left_stick_y,
-                gamepad1.left_stick_x,
-                gamepad1.right_stick_x,
-                false
-        );
+        garyDrivetrain.getFollower().startTeleopDrive();
+        garyDrivetrain.getFollower().update();
     }
 
     @Override
     public void execute() {
         garyDrivetrain.getFollower().startTeleOpDrive(true);
+        garyDrivetrain.getFollower().setTeleOpDrive(
+                -gamepad1.left_stick_y,
+                -gamepad1.left_stick_x,
+                -gamepad1.right_stick_x,
+                false
+        );
+        garyDrivetrain.getFollower().update();
     }
 }

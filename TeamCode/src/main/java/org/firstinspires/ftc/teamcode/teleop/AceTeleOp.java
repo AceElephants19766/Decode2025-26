@@ -45,6 +45,8 @@ public class AceTeleOp extends CommandOpMode {
 
         garyDrivetrain.getFollower().setStartingPose(new Pose());
 
+
+
         gamepadEx2.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).toggleWhenPressed(
                 new InstantCommand(
                         () -> conveyor.SetPower(-1)
@@ -100,6 +102,8 @@ public class AceTeleOp extends CommandOpMode {
     @Override
     public void run() {
         super.run();
+
+        garyDrivetrain.getFollower().update();
 
 //        telemetry.addData("RPM", shooterPID.getRPM());
 //        telemetry.addData("joystickX", gamepad2.right_stick_x);
