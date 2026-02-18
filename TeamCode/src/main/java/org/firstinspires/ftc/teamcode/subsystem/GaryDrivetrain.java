@@ -1,7 +1,10 @@
 package org.firstinspires.ftc.teamcode.subsystem;
 
+import androidx.loader.content.Loader;
+
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.geometry.Vector2d;
+import com.pedropathing.follower.Follower;
 import com.qualcomm.hardware.bosch.BNO055IMUNew;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -11,6 +14,7 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 public class GaryDrivetrain extends SubsystemBase {
 
@@ -20,6 +24,8 @@ public class GaryDrivetrain extends SubsystemBase {
     private final DcMotorEx backRight;
     private final DcMotorEx backLeft;
 
+    //pedro
+    private final Follower follower;
 
     public GaryDrivetrain(HardwareMap hardwareMap) {
 
@@ -48,6 +54,9 @@ public class GaryDrivetrain extends SubsystemBase {
         frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        //pedro
+        follower = Constants.createFollower(hardwareMap);
 
     }
 
@@ -89,4 +98,7 @@ public class GaryDrivetrain extends SubsystemBase {
         return imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
     }
 
+    public Follower getFollower() {
+        return follower;
+    }
 }

@@ -12,11 +12,13 @@ import org.firstinspires.ftc.teamcode.commands.Drive;
 import org.firstinspires.ftc.teamcode.commands.IntakeActivate;
 import org.firstinspires.ftc.teamcode.commands.IntakeDeactivate;
 import org.firstinspires.ftc.teamcode.commands.ShooterGetToRPM;
+import org.firstinspires.ftc.teamcode.commands.TurretGetToAngle;
 import org.firstinspires.ftc.teamcode.subsystem.Conveyor;
 import org.firstinspires.ftc.teamcode.subsystem.GaryDrivetrain;
 import org.firstinspires.ftc.teamcode.subsystem.Intake;
 import org.firstinspires.ftc.teamcode.subsystem.ShooterPID;
 import org.firstinspires.ftc.teamcode.subsystem.Spindexer;
+import org.firstinspires.ftc.teamcode.subsystem.Turret;
 
 
 @TeleOp
@@ -28,7 +30,9 @@ public class AceTeleOp extends CommandOpMode {
     private Intake intake;
     private Conveyor conveyor;
     private ShooterPID shooterPID;
+    private Turret turret;
  //   private Spindexer spindexer;
+
 
     @Override
     public void initialize() {
@@ -39,6 +43,7 @@ public class AceTeleOp extends CommandOpMode {
         intake = new Intake(hardwareMap);
         conveyor = new Conveyor(hardwareMap);
         shooterPID = new ShooterPID(hardwareMap);
+        turret = new Turret(hardwareMap);
       //  spindexer = new Spindexer(hardwareMap);
 
        gamepadEx2.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).toggleWhenPressed(
@@ -89,7 +94,6 @@ public class AceTeleOp extends CommandOpMode {
 
 
         CommandScheduler.getInstance().setDefaultCommand(garyDrivetrain, new Drive(garyDrivetrain, gamepad1));
-
        //todo: make sure legal
     //   spindexer.updatePos();
 

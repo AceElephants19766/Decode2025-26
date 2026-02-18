@@ -27,6 +27,10 @@ public class Turret extends SubsystemBase {
         pidfController = new PIDFController(kP, kI, kD, kF);
     }
 
+    public PIDFController getPidfController() {
+        return pidfController;
+    }
+
     public double getPosition() {
         return (motor.getCurrentPosition() / TICKS_PER_REV) * RATIO * REV_TO_ANGLE;
     }
