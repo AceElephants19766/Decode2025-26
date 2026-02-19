@@ -10,7 +10,7 @@ public class TurretGetToAngle extends CommandBase {
 
     private final Turret turret;
     private final double target;
-    public TurretGetToAngle(Turret turret, int target) {
+    public TurretGetToAngle(Turret turret, double target) {
         this.turret = turret;
         this.target = target;
         addRequirements(turret);
@@ -28,11 +28,7 @@ public class TurretGetToAngle extends CommandBase {
                         turret.getPosition()
                 )
         );
-    }
 
-    @Override
-    public boolean isFinished() {
-        return false;
     }
 
     @Override
