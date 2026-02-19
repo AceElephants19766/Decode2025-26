@@ -10,6 +10,8 @@ import java.util.function.DoubleSupplier;
 
 public class TurretAlignToGoal extends TurretGetToAngle {
 
+
+    //todo: add to TeleOp
     public TurretAlignToGoal(Turret turret, GaryDrivetrain garyDrivetrain, boolean isGoalBlue) {
         super(turret, () -> {
                     Vector2d goalPose = isGoalBlue ? Constants.BLUE_GOAL_POS : Constants.RED_GOAL_POS;
@@ -24,7 +26,7 @@ public class TurretAlignToGoal extends TurretGetToAngle {
                     );
 
                     turretAngle = (turretAngle > 180) ? (turretAngle - 360) : turretAngle;
-                    turretAngle = (turretAngle < 180) ? (turretAngle + 360) : turretAngle;
+                    turretAngle = (turretAngle < /*todo: add minus?*/ 180) ? (turretAngle + 360) : turretAngle;
 
                     return turretAngle;
                 }
