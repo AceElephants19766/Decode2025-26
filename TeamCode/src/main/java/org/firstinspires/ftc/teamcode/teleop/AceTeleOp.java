@@ -45,16 +45,16 @@ public class AceTeleOp extends CommandOpMode {
         conveyor = new Conveyor(hardwareMap);
         shooterPID = new ShooterPID(hardwareMap);
         turret = new Turret(hardwareMap);
-      //  spindexer = new Spindexer(hardwareMap);
+        //  spindexer = new Spindexer(hardwareMap);
 
-       gamepadEx2.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).toggleWhenPressed(
-               new InstantCommand(
-                       () -> conveyor.SetPower(-1)
-               ),
-               new InstantCommand(
-                       () -> conveyor.SetPower(0)
-               )
-       );
+        gamepadEx2.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).toggleWhenPressed(
+                new InstantCommand(
+                        () -> conveyor.SetPower(-1)
+                ),
+                new InstantCommand(
+                        () -> conveyor.SetPower(0)
+                )
+        );
 
         gamepadEx2.getGamepadButton(GamepadKeys.Button.X).toggleWhenPressed(
                 new ShooterGetToRPM(shooterPID, -5500)
@@ -82,25 +82,25 @@ public class AceTeleOp extends CommandOpMode {
         );
 
         gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
-                new TurretGetToAngle(turret,
-                        () -> {
-                            Vector2d goalPos = isGoalBlue ? Constants.BLUE_GOAL_POS : Constants.RED_GOAL_POS;
-                            double angleRes = Math.toDegrees(-garyDrivetrain.getFollower().getHeading() + Math.atan2(
-                                    (goalPos.getY() - garyDrivetrain.getFollower().getPose().getY()),
-                                    (goalPos.getX() - garyDrivetrain.getFollower().getPose().getX())
-                            ));
-                            angleRes = (angleRes > 180) ? (angleRes - 360) : angleRes;
-                            angleRes = (angleRes < -180) ? (angleRes + 360) : angleRes;
+                new TurretGetToAngle(turret, () -> {
+                    Vector2d goalPos = isGoalBlue ? Constants.BLUE_GOAL_POS : Constants.RED_GOAL_POS;
 
-                            return angleRes;
-                        }
-                )
+                    double angleRes = Math.toDegrees(-garyDrivetrain.getFollower().getHeading() + Math.atan2(
+                            (goalPos.getY() - garyDrivetrain.getFollower().getPose().getY()),
+                            (goalPos.getX() - garyDrivetrain.getFollower().getPose().getX())
+                    ));
+
+                    angleRes = (angleRes > 180) ? (angleRes - 360) : angleRes;
+                    angleRes = (angleRes < -180) ? (angleRes + 360) : angleRes;
+
+                    return angleRes;
+                })
         );
 
 
         CommandScheduler.getInstance().setDefaultCommand(garyDrivetrain, new Drive(garyDrivetrain, gamepad1));
-       //todo: make sure legal
-    //   spindexer.updatePos();
+        //todo: make sure legal
+        //   spindexer.updatePos();
 
     }
 
@@ -113,7 +113,7 @@ public class AceTeleOp extends CommandOpMode {
 //        telemetry.addData("joystickY", gamepad2.right_stick_y);
         telemetry.addData("imu angle", garyDrivetrain.getAngleYaw());
 
-      //  telemetry.addData("servoPosition", conveyor.());
+        //  telemetry.addData("servoPosition", conveyor.());
 //        telemetry.addData("frontLeftPower", frontLeft.getPower());
 
         telemetry.update();
