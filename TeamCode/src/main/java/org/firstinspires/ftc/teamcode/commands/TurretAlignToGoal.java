@@ -45,6 +45,7 @@ public class TurretAlignToGoal extends CommandBase {
                 (goalPos.getX() - garyDrivetrain.getFollower().getPose().getX())
         ));
         angleRes = (angleRes > 180) ? (angleRes - 360) : angleRes;
+        angleRes = (angleRes < -180) ? (angleRes + 360) : angleRes;
 
         turret.getPidfController().setSetPoint(angleRes);
 

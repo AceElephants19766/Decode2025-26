@@ -6,6 +6,7 @@ import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
+import com.arcrobotics.ftclib.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.commands.Drive;
@@ -19,6 +20,7 @@ import org.firstinspires.ftc.teamcode.subsystem.Intake;
 import org.firstinspires.ftc.teamcode.subsystem.ShooterPID;
 import org.firstinspires.ftc.teamcode.subsystem.Spindexer;
 import org.firstinspires.ftc.teamcode.subsystem.Turret;
+import org.firstinspires.ftc.teamcode.utils.Constants;
 
 
 @TeleOp
@@ -31,8 +33,7 @@ public class AceTeleOp extends CommandOpMode {
     private Conveyor conveyor;
     private ShooterPID shooterPID;
     private Turret turret;
- //   private Spindexer spindexer;
-
+    boolean isGoalBlue = true;
 
     @Override
     public void initialize() {
@@ -80,17 +81,21 @@ public class AceTeleOp extends CommandOpMode {
                 )
         );
 
-//      gamepadEx2.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(
-//              new InstantCommand(
-//                      () ->  spindexer.positionSpindexerUp()
-//                )
-//        );
-//
-//      gamepadEx2.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(
-//              new InstantCommand(
-//                      () -> spindexer.positionSpindexerDown()
-//              )
-//      );
+        gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
+                new TurretGetToAngle(turret,
+                        () -> {
+                            Vector2d goalPos = isGoalBlue ? Constants.BLUE_GOAL_POS : Constants.RED_GOAL_POS;
+                            double angleRes = Math.toDegrees(-garyDrivetrain.getFollower().getHeading() + Math.atan2(
+                                    (goalPos.getY() - garyDrivetrain.getFollower().getPose().getY()),
+                                    (goalPos.getX() - garyDrivetrain.getFollower().getPose().getX())
+                            ));
+                            angleRes = (angleRes > 180) ? (angleRes - 360) : angleRes;
+                            angleRes = (angleRes < -180) ? (angleRes + 360) : angleRes;
+
+                            return angleRes;
+                        }
+                )
+        );
 
 
         CommandScheduler.getInstance().setDefaultCommand(garyDrivetrain, new Drive(garyDrivetrain, gamepad1));
