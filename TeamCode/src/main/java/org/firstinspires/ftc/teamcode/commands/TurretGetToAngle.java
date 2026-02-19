@@ -5,12 +5,14 @@ import com.arcrobotics.ftclib.command.CommandOpMode;
 
 import org.firstinspires.ftc.teamcode.subsystem.Turret;
 
+import java.util.function.DoubleSupplier;
+
 public class TurretGetToAngle extends CommandBase {
 
 
     private final Turret turret;
-    private final double target;
-    public TurretGetToAngle(Turret turret, double target) {
+    private final DoubleSupplier target;
+    public TurretGetToAngle(Turret turret, DoubleSupplier target) {
         this.turret = turret;
         this.target = target;
         addRequirements(turret);
@@ -18,7 +20,7 @@ public class TurretGetToAngle extends CommandBase {
 
     @Override
     public void initialize() {
-        turret.getPidfController().setSetPoint(target);
+        turret.getPidfController().setSetPoint(target.getAsDouble());
     }
 
     @Override
