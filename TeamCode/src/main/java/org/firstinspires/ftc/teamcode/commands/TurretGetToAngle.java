@@ -7,6 +7,7 @@ import org.firstinspires.ftc.teamcode.subsystem.Turret;
 
 public class TurretGetToAngle extends CommandBase {
 
+
     private final Turret turret;
     private final double target;
     public TurretGetToAngle(Turret turret, int target) {
@@ -15,5 +16,27 @@ public class TurretGetToAngle extends CommandBase {
         addRequirements(turret);
     }
 
+    @Override
+    public void initialize() {
+        turret.getPidfController().setSetPoint(target);
+    }
 
+    @Override
+    public void execute() {
+        turret.setPower(
+                turret.getPidfController().calculate(
+                        turret.getPosition()
+                )
+        );
+    }
+
+    @Override
+    public boolean isFinished() {
+        return false;
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        turret.setPower(0);
+    }
 }
