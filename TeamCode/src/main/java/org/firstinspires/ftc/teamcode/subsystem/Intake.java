@@ -8,11 +8,14 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class Intake extends SubsystemBase {
 
     public final CRServo leftServo;
-    public  final CRServo rightServo;
+    public final CRServo rightServo;
+
+    public static final double ACTIVE_POWER = 0.5;
 
     public Intake(HardwareMap hardwareMap) {
         rightServo = hardwareMap.get(CRServo.class, "rightServo");
         leftServo = hardwareMap.get(CRServo.class, "leftServo");
+
     }
 
     public void setPower(double power) {

@@ -64,15 +64,12 @@ public class AceTeleOp extends CommandOpMode {
                 new ShooterGetToRPM(shooterPID, -5500)
         );
 
-
         gamepadEx2.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).toggleWhenPressed(
-                new InstantCommand(
-                        () -> IntakeActivate
-                ),
-                new InstantCommand(
-                        () -> IntakeDeactivate
-                )
-        );
+                new IntakeActivate(intake),
+                new IntakeDeactivate(intake)
+                );
+
+
 
         gamepadEx2.getGamepadButton(GamepadKeys.Button.B).toggleWhenPressed(
                 new InstantCommand(
