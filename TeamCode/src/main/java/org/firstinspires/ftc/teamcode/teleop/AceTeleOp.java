@@ -66,8 +66,12 @@ public class AceTeleOp extends CommandOpMode {
 
 
         gamepadEx2.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).toggleWhenPressed(
-                new IntakeActivate(intake),
-                new IntakeDeactivate(intake)//
+                new InstantCommand(
+                        () -> IntakeActivate
+                ),
+                new InstantCommand(
+                        () -> IntakeDeactivate
+                )
         );
 
         gamepadEx2.getGamepadButton(GamepadKeys.Button.B).toggleWhenPressed(

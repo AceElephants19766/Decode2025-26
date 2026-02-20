@@ -6,16 +6,19 @@ import org.firstinspires.ftc.teamcode.subsystem.Intake;
 
 public class IntakeDeactivate extends CommandBase {
 
-    private final Intake intake;
+    private final Intake leftServo;
+    private final Intake rightServo;
 
-    public IntakeDeactivate(Intake intake) {
-        this.intake = intake;
-        addRequirements(intake);
+    public IntakeDeactivate(Intake leftServo, Intake rightServo) {
+        this.leftServo = leftServo;
+        this.rightServo = rightServo;
+        addRequirements(rightServo,leftServo);
     }
 
     @Override
     public void initialize() {
-        intake.setPower(0);
+        leftServo.setPower(0);
+        rightServo.setPower(0);
 
     }
 
@@ -24,4 +27,3 @@ public class IntakeDeactivate extends CommandBase {
         return true;
     }
 }
-
