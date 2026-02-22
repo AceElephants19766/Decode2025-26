@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.teleop;
 
 import com.acmerobotics.dashboard.FtcDashboard;
-import com.arcrobotics.ftclib.command.CommandGroupBase;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.InstantCommand;
@@ -25,7 +24,6 @@ import org.firstinspires.ftc.teamcode.subsystem.GaryDrivetrain;
 import org.firstinspires.ftc.teamcode.subsystem.Hood;
 import org.firstinspires.ftc.teamcode.subsystem.Intake;
 import org.firstinspires.ftc.teamcode.subsystem.ShooterPID;
-import org.firstinspires.ftc.teamcode.subsystem.Spindexer;
 import org.firstinspires.ftc.teamcode.subsystem.Turret;
 
 
