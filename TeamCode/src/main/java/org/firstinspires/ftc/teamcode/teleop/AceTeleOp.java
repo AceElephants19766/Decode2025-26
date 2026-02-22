@@ -1,9 +1,12 @@
 package org.firstinspires.ftc.teamcode.teleop;
 
 import com.acmerobotics.dashboard.FtcDashboard;
+import com.arcrobotics.ftclib.command.CommandGroupBase;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.pedropathing.geometry.Pose;
@@ -15,8 +18,11 @@ import org.firstinspires.ftc.teamcode.commands.IntakeDeactivate;
 import org.firstinspires.ftc.teamcode.commands.ResetIMU;
 import org.firstinspires.ftc.teamcode.commands.ShooterGetToRPM;
 import org.firstinspires.ftc.teamcode.commands.TurretAlignToGoal;
+import org.firstinspires.ftc.teamcode.subsystem.Braker;
 import org.firstinspires.ftc.teamcode.subsystem.Conveyor;
+import org.firstinspires.ftc.teamcode.subsystem.ElevationSpoon;
 import org.firstinspires.ftc.teamcode.subsystem.GaryDrivetrain;
+import org.firstinspires.ftc.teamcode.subsystem.Hood;
 import org.firstinspires.ftc.teamcode.subsystem.Intake;
 import org.firstinspires.ftc.teamcode.subsystem.ShooterPID;
 import org.firstinspires.ftc.teamcode.subsystem.Spindexer;
@@ -33,7 +39,10 @@ public class AceTeleOp extends CommandOpMode {
     private Conveyor conveyor;
     private ShooterPID shooterPID;
     private Turret turret;
-    //   private Spindexer spindexer;
+    private ElevationSpoon elevationSpoon;
+    private Braker braker;
+    private Hood hood;
+
 
     @Override
     public void initialize() {
@@ -45,7 +54,9 @@ public class AceTeleOp extends CommandOpMode {
         conveyor = new Conveyor(hardwareMap);
         shooterPID = new ShooterPID(hardwareMap);
         turret = new Turret(hardwareMap);
-        //  spindexer = new Spindexer(hardwareMap);
+        elevationSpoon = new ElevationSpoon(hardwareMap);
+        braker = new Braker(hardwareMap);
+
 
         garyDrivetrain.getFollower().setStartingPose(new Pose());
 
@@ -67,9 +78,36 @@ public class AceTeleOp extends CommandOpMode {
         gamepadEx2.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).toggleWhenPressed(
                 new IntakeActivate(intake),
                 new IntakeDeactivate(intake)
-                );
+        );
 
+        gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
+                new SequentialCommandGroup(
+                        new InstantCommand(
+                                () -> elevationSpoon.up()
+                        ),
+                        new WaitCommand(
+                                ElevationSpoon.TIME_BETWEEN_UP_AND_DOWN
+                        ),
+                        new InstantCommand(
+                                () -> elevationSpoon.down()
+                        )
+                )
+        );
 
+        gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_UP).toggleWhenPressed(
+                new InstantCommand(
+                        () -> braker.blocking()
+                ),
+                new InstantCommand(
+                        () -> braker.free()
+                )
+        );
+
+        gamepadEx2.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
+                new InstantCommand(
+                        () -> hood.setPosition(Hood.HOOD_POSITION)
+                )
+        );
 
         gamepadEx2.getGamepadButton(GamepadKeys.Button.B).toggleWhenPressed(
                 new InstantCommand(
@@ -84,7 +122,7 @@ public class AceTeleOp extends CommandOpMode {
                 new ResetIMU(garyDrivetrain)
         );
 
-        gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(
+        gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(
                 new TurretAlignToGoal(turret , garyDrivetrain , false)
         );
 

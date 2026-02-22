@@ -10,16 +10,16 @@ public class Intake extends SubsystemBase {
     public final CRServo leftServo;
     public final CRServo rightServo;
 
-    public static final double ACTIVE_POWER = 0.5;
+    public static final double ACTIVE_POWER = 0.8; // hi dude how are you; im good hbu?
 
     public Intake(HardwareMap hardwareMap) {
-        rightServo = hardwareMap.get(CRServo.class, "rightServo");
-        leftServo = hardwareMap.get(CRServo.class, "leftServo");
+        rightServo = hardwareMap.get(CRServo.class, "rightIntakeServo");
+        leftServo = hardwareMap.get(CRServo.class, "leftIntakeServo");
 
     }
 
     public void setPower(double power) {
-        rightServo.setPower(power);
+        rightServo.setPower(-power);
         leftServo.setPower(power);
     }
 

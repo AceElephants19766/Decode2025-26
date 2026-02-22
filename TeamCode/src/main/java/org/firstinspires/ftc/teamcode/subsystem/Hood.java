@@ -4,17 +4,16 @@ import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-public class FuckThisShit extends SubsystemBase {
+public class Hood extends SubsystemBase {
 
-    private final Servo servo;
+    private final Servo hood;
+    public static final double HOOD_POSITION = 0.5;
 
-    public FuckThisShit(HardwareMap hardwareMap) {
-        servo = hardwareMap.get(Servo.class, "servo");
+    public Hood(HardwareMap hardwareMap) {
+        hood = hardwareMap.get(Servo.class, "hood");
     }
 
     public void setPosition(double position) {
-        servo.setPosition(position);
+        hood.setPosition(position);
     }
-
-
 }
