@@ -19,6 +19,7 @@ import org.firstinspires.ftc.teamcode.commands.IntakeDeactivate;
 import org.firstinspires.ftc.teamcode.commands.ResetIMU;
 import org.firstinspires.ftc.teamcode.commands.ShooterGetToRPM;
 import org.firstinspires.ftc.teamcode.commands.TurretAlignToGoal;
+import org.firstinspires.ftc.teamcode.commands.TurretAlignToGoalExecute;
 import org.firstinspires.ftc.teamcode.commands.TurretGetToAngle;
 import org.firstinspires.ftc.teamcode.subsystem.Braker;
 import org.firstinspires.ftc.teamcode.subsystem.Conveyor;
@@ -56,7 +57,7 @@ public class AceTeleOp extends CommandOpMode {
     @Override
     public void initialize() {
 
-        garyDrivetrain = new GaryDrivetrain(hardwareMap);
+        garyDrivetrain = new GaryDrivetrain(hardwareMap, isBlue);
         gamepadEx1 = new GamepadEx(gamepad1);
         gamepadEx2 = new GamepadEx(gamepad2);
         intake = new Intake(hardwareMap);
@@ -75,7 +76,7 @@ public class AceTeleOp extends CommandOpMode {
 
         garyDrivetrain.getFollower().setStartingPose(startingPose);
 
-        gamepadEx2.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).toggleWhenPressed(
+        gamepadEx1.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).toggleWhenPressed(
                 new InstantCommand(
                         () -> conveyor.SetPower(-1)
                 ),
@@ -84,16 +85,16 @@ public class AceTeleOp extends CommandOpMode {
                 )
         );
 
-        gamepadEx2.getGamepadButton(GamepadKeys.Button.X).toggleWhenPressed(
+        gamepadEx1.getGamepadButton(GamepadKeys.Button.X).toggleWhenPressed(
                 new ShooterGetToRPM(shooterPID, 2500)
         );
 
-        gamepadEx2.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).toggleWhenPressed(
+        gamepadEx1.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).toggleWhenPressed(
                 new IntakeActivate(intake),
                 new IntakeDeactivate(intake)
         );
 
-        gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(
+        gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(
                 new HoodSetPosition(hood, () -> Hood.TUNING_POS)
         );
 
@@ -111,7 +112,9 @@ public class AceTeleOp extends CommandOpMode {
                 )
         );
 
-        gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_UP).toggleWhenPressed(
+      //  gamepadEx1.getGamepadButton().
+
+        gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_UP).toggleWhenPressed(
                 new InstantCommand(
                         () -> braker.blocking()
                 ),
@@ -120,41 +123,29 @@ public class AceTeleOp extends CommandOpMode {
                 )
         );
 
-        gamepadEx1.getGamepadButton(GamepadKeys.Button.X).whenPressed(
+        gamepadEx2.getGamepadButton(GamepadKeys.Button.X).whenPressed(
                 new TurretGetToAngle(
                         turret, () -> 90
                 )
         );
 
-        gamepadEx1.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
+        gamepadEx2.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
                 new TurretGetToAngle(
                         turret, () -> -90
                 )
         );
 
-        gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(
+        gamepadEx2.getGamepadButton(GamepadKeys.Button.B).whenPressed(
                 new TurretGetToAngle(
                         turret, () -> 0
                 )
         );
 
+//        gamepadEx1.getGamepadButton(GamepadKeys.Button.START).whenPressed(
+//                new ResetIMU(garyDrivetrain)
+//        );
 
-        gamepadEx2.getGamepadButton(GamepadKeys.Button.B).toggleWhenPressed(
-                new InstantCommand(
-                        () -> shooterPID.setPower(1)
-                ),
-                new InstantCommand(
-                        () -> shooterPID.setPower(0)
-                )
-        );
-
-        gamepadEx1.getGamepadButton(GamepadKeys.Button.START).whenPressed(
-                new ResetIMU(garyDrivetrain)
-        );
-
-        gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(
-                new TurretAlignToGoal(turret , garyDrivetrain , isBlue)
-        );
+        turret.setDefaultCommand(new TurretAlignToGoalExecute(turret,garyDrivetrain,isBlue));
 
         CommandScheduler.getInstance().setDefaultCommand(garyDrivetrain, new Drive(garyDrivetrain, gamepad1));
 
@@ -178,7 +169,7 @@ public class AceTeleOp extends CommandOpMode {
 //        telemetry.addData("RPM", shooterPID.getRPM());
 //        telemetry.addData("joystickX", gamepad2.right_stick_x);
 //        telemetry.addData("joystickY", gamepad2.right_stick_y);
-        telemetry.addData("imu angle", garyDrivetrain.getFollower().getHeading());
+        telemetry.addData("imu angle", Math.toDegrees(garyDrivetrain.getHeadingNormal()));
 
         //  telemetry.addData("servoPosition", conveyor.());
 //        telemetry.addData("frontLeftPower", frontLeft.getPower());

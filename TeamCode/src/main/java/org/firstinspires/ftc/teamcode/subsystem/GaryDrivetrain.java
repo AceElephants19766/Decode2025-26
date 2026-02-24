@@ -12,9 +12,11 @@ public class GaryDrivetrain extends SubsystemBase {
 
     private final Follower follower;
 
+    private boolean isGoalBlue;
 
-    public GaryDrivetrain(HardwareMap hardwareMap) {
+    public GaryDrivetrain(HardwareMap hardwareMap, boolean isGoalBlue) {
         follower = Constants.createFollower(hardwareMap);
+        this.isGoalBlue = isGoalBlue;
     }
 
     public Follower getFollower() {
@@ -38,6 +40,12 @@ public class GaryDrivetrain extends SubsystemBase {
         return radius;
     }
 
+    public double getHeadingNormal() {
+        double currHeading = follower.getHeading() % Math.toRadians(360);
+        double headingRes = (currHeading > Math.toRadians(180)) ? currHeading - Math.toRadians(360) : currHeading;
+        return (headingRes < Math.toRadians(-180)) ? Math.toRadians(360) + headingRes : headingRes;
+    }
+
     @Override
     public void periodic() {
         follower.update();
@@ -45,7 +53,7 @@ public class GaryDrivetrain extends SubsystemBase {
 //        Drawing.sendPacket();
 
         PanelsTelemetry.INSTANCE.getTelemetry().addData(
-                "radius", getRadius(false)
+                "radius", getRadius(isGoalBlue)
         );
 
         PanelsTelemetry.INSTANCE.getTelemetry().addData(
@@ -55,7 +63,7 @@ public class GaryDrivetrain extends SubsystemBase {
                 "y", follower.getPose().getY()
         );
         PanelsTelemetry.INSTANCE.getTelemetry().addData(
-                "heading", follower.getPose().getHeading()
+                "heading", Math.toDegrees(getHeadingNormal())
         );
 
 

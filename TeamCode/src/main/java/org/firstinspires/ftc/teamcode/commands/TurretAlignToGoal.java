@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.commands;
 
 import com.arcrobotics.ftclib.geometry.Vector2d;
+import com.bylazar.telemetry.PanelsTelemetry;
 
 import org.firstinspires.ftc.teamcode.subsystem.GaryDrivetrain;
 import org.firstinspires.ftc.teamcode.subsystem.Turret;
@@ -26,6 +27,10 @@ public class TurretAlignToGoal extends TurretGetToAngle {
                     turretAngle = (turretAngle > 90) ? 90 : turretAngle;
 
                     turretAngle = (turretAngle < -90) ? -90 : turretAngle;
+
+                    PanelsTelemetry.INSTANCE.getTelemetry().addData(
+                            "turretAlignToAngle", turretAngle
+                    );
 
                     return turretAngle;
                 }

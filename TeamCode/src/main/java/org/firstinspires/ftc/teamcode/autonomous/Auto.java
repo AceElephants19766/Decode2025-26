@@ -18,7 +18,7 @@ public class Auto extends CommandOpMode {
     @Override
     public void initialize() {
 
-        garyDrivetrain = new GaryDrivetrain(hardwareMap);
+        garyDrivetrain = new GaryDrivetrain(hardwareMap, false);
 
         moveForward = new SequentialCommandGroup(
                 new InstantCommand(

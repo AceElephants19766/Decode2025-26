@@ -28,7 +28,7 @@ public class Drive extends CommandBase {
                 -gamepad1.left_stick_y,
                 -gamepad1.left_stick_x,
                 -gamepad1.right_stick_x,
-                false
+                true
         );
         garyDrivetrain.getFollower().update();
     }

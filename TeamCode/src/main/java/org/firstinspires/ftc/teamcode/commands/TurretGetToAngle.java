@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.commands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
-import com.arcrobotics.ftclib.command.CommandOpMode;
 
 import org.firstinspires.ftc.teamcode.subsystem.Turret;
 
@@ -20,17 +19,16 @@ public class TurretGetToAngle extends CommandBase {
 
     @Override
     public void initialize() {
-        turret.getPidfController().setSetPoint(target.getAsDouble());
+        turret.getPidController().setGoal(target.getAsDouble());
     }
 
     @Override
     public void execute() {
         turret.setPower(
-                turret.getPidfController().calculate(
+                turret.getPidController().calculate(
                         turret.getPosition()
                 )
         );
-
     }
 
     @Override
