@@ -68,7 +68,7 @@ public class AceTeleOp extends CommandOpMode {
         braker = new Braker(hardwareMap);
         hood = new Hood(hardwareMap);
 
-        if(isBlue) {
+        if (isBlue) {
             startingPose = isNextToWall ? Constants.BLUE_WALL_STARTING_POSE : Constants.BLUE_GOAL_STARTING_POSE;
         } else {
             startingPose = isNextToWall ? Constants.RED_WALL_STARTING_POSE : Constants.RED_GOAL_STARTING_POSE;
@@ -112,7 +112,7 @@ public class AceTeleOp extends CommandOpMode {
                 )
         );
 
-      //  gamepadEx1.getGamepadButton().
+        //  gamepadEx1.getGamepadButton().
 
         gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_UP).toggleWhenPressed(
                 new InstantCommand(
@@ -141,16 +141,18 @@ public class AceTeleOp extends CommandOpMode {
                 )
         );
 
+        gamepadEx1.getGamepadButton(GamepadKeys.Button.B).toggleWhenPressed(
+                new TurretAlignToGoalExecute(turret, garyDrivetrain, isBlue)
+        );
+
 //        gamepadEx1.getGamepadButton(GamepadKeys.Button.START).whenPressed(
 //                new ResetIMU(garyDrivetrain)
 //        );
 
-        turret.setDefaultCommand(new TurretAlignToGoalExecute(turret,garyDrivetrain,isBlue));
-
         CommandScheduler.getInstance().setDefaultCommand(garyDrivetrain, new Drive(garyDrivetrain, gamepad1));
 
 /*        hood.setDefaultCommand(
-                new PerpetualCommand(new GetHoodToAngleInterp(garyDrivetrain, hood, isBlue))
+                new GetHoodToAngleInterp(garyDrivetrain, hood, isBlue)
         );*/
 
         //todo: make sure legal
@@ -173,7 +175,6 @@ public class AceTeleOp extends CommandOpMode {
 
         //  telemetry.addData("servoPosition", conveyor.());
 //        telemetry.addData("frontLeftPower", frontLeft.getPower());
-
 
 
         PanelsTelemetry.INSTANCE.getTelemetry().update();

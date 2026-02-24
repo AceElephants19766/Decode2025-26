@@ -6,6 +6,7 @@ import com.bylazar.telemetry.PanelsTelemetry;
 import com.pedropathing.follower.Follower;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 public class GaryDrivetrain extends SubsystemBase {
@@ -41,11 +42,8 @@ public class GaryDrivetrain extends SubsystemBase {
     }
 
     public double getHeadingNormal() {
-        double currHeading = follower.getHeading() % Math.toRadians(360);
-        double headingRes = (currHeading > Math.toRadians(180)) ? currHeading - Math.toRadians(360) : currHeading;
-        return (headingRes < Math.toRadians(-180)) ? Math.toRadians(360) + headingRes : headingRes;
+        return AngleUnit.normalizeRadians(follower.getHeading());
     }
-
     @Override
     public void periodic() {
         follower.update();

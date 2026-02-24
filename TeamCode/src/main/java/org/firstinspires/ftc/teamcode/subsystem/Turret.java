@@ -25,7 +25,7 @@ public class Turret extends SubsystemBase {
     private final double TOLERANCE = 5;
 
     public static double MAX_VELOCITY = Integer.MAX_VALUE;
-    public static double MAX_ACCELERATION = 100;
+    public static double MAX_ACCELERATION = 60;
 
     //Constants
     private final double REV_TO_ANGLE = 360;
