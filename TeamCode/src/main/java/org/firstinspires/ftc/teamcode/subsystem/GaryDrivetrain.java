@@ -7,7 +7,6 @@ import com.pedropathing.follower.Follower;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
-import org.firstinspires.ftc.teamcode.pedroPathing.Drawing;
 
 public class GaryDrivetrain extends SubsystemBase {
 
@@ -42,15 +41,13 @@ public class GaryDrivetrain extends SubsystemBase {
     @Override
     public void periodic() {
         follower.update();
-        Drawing.drawDebug(follower);
-        Drawing.sendPacket();
+//        Drawing.drawDebug(follower);
+//        Drawing.sendPacket();
 
         PanelsTelemetry.INSTANCE.getTelemetry().addData(
                 "radius", getRadius(false)
         );
-        PanelsTelemetry.INSTANCE.getTelemetry().addData(
-                "pose", follower.getPose()
-        );
+
         PanelsTelemetry.INSTANCE.getTelemetry().addData(
                 "x", follower.getPose().getX()
         );

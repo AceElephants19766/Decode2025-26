@@ -1,21 +1,16 @@
 package org.firstinspires.ftc.teamcode.teleop;
 
-import com.acmerobotics.dashboard.FtcDashboard;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.InstantCommand;
-import com.arcrobotics.ftclib.command.PerpetualCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
-import com.bylazar.panels.Panels;
 import com.bylazar.telemetry.PanelsTelemetry;
-import com.pedropathing.geometry.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.commands.Drive;
-import org.firstinspires.ftc.teamcode.commands.GetHoodToAngleInterp;
 import org.firstinspires.ftc.teamcode.commands.HoodSetPosition;
 import org.firstinspires.ftc.teamcode.commands.IntakeActivate;
 import org.firstinspires.ftc.teamcode.commands.IntakeDeactivate;
@@ -30,10 +25,11 @@ import org.firstinspires.ftc.teamcode.subsystem.Hood;
 import org.firstinspires.ftc.teamcode.subsystem.Intake;
 import org.firstinspires.ftc.teamcode.subsystem.ShooterPID;
 import org.firstinspires.ftc.teamcode.subsystem.Turret;
+import org.firstinspires.ftc.teamcode.utils.Constants;
 
 
 @TeleOp
-public class AceTeleOp extends CommandOpMode {
+public class RedWallTeleOp extends CommandOpMode {
 
     private GaryDrivetrain garyDrivetrain;
     private GamepadEx gamepadEx1;
@@ -61,10 +57,7 @@ public class AceTeleOp extends CommandOpMode {
         braker = new Braker(hardwareMap);
         hood = new Hood(hardwareMap);
 
-
-        garyDrivetrain.getFollower().setStartingPose(new Pose());
-
-
+        garyDrivetrain.getFollower().setStartingPose(Constants.RED_WALL_STARTING_POSE);
 
         gamepadEx2.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).toggleWhenPressed(
                 new InstantCommand(
