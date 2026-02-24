@@ -8,8 +8,8 @@ public class Braker extends SubsystemBase {
 
     private final Servo braker;
 
-    private final double BLOCKING = 0.55;
-    private final double FREE = 0.9;
+    private final double BLOCKING = 0.694;
+    private final double FREE = 0.94;
 
 
     public Braker(HardwareMap hardwareMap) {

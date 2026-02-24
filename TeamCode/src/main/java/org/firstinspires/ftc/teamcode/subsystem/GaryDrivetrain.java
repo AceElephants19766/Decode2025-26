@@ -2,17 +2,12 @@ package org.firstinspires.ftc.teamcode.subsystem;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.geometry.Vector2d;
+import com.bylazar.telemetry.PanelsTelemetry;
 import com.pedropathing.follower.Follower;
-import com.qualcomm.hardware.bosch.BNO055IMUNew;
-import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
+import org.firstinspires.ftc.teamcode.pedroPathing.Drawing;
 
 public class GaryDrivetrain extends SubsystemBase {
 
@@ -25,5 +20,47 @@ public class GaryDrivetrain extends SubsystemBase {
 
     public Follower getFollower() {
         return follower;
+    }
+
+    public double getRadius(boolean isGoalBlue) {
+
+        Vector2d goalPose = isGoalBlue ? org.firstinspires.ftc.teamcode.utils.Constants.BLUE_GOAL_POS : org.firstinspires.ftc.teamcode.utils.Constants.RED_GOAL_POS;
+
+        double yDiff = goalPose.getY() - follower.getPose().getY();
+        double xDiff = goalPose.getX() - follower.getPose().getX();
+
+        double yDiffSquared = Math.pow(yDiff, 2);
+        double xDiffSquared = Math.pow(xDiff, 2);
+
+        double distanceSquared = yDiffSquared + xDiffSquared;
+
+        double radius = Math.sqrt(distanceSquared);
+
+        return radius;
+    }
+
+    @Override
+    public void periodic() {
+        follower.update();
+        Drawing.drawDebug(follower);
+        Drawing.sendPacket();
+
+        PanelsTelemetry.INSTANCE.getTelemetry().addData(
+                "radius", getRadius(false)
+        );
+        PanelsTelemetry.INSTANCE.getTelemetry().addData(
+                "pose", follower.getPose()
+        );
+        PanelsTelemetry.INSTANCE.getTelemetry().addData(
+                "x", follower.getPose().getX()
+        );
+        PanelsTelemetry.INSTANCE.getTelemetry().addData(
+                "y", follower.getPose().getY()
+        );
+        PanelsTelemetry.INSTANCE.getTelemetry().addData(
+                "heading", follower.getPose().getHeading()
+        );
+
+
     }
 }

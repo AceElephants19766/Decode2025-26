@@ -8,8 +8,8 @@ public class ElevationSpoon extends SubsystemBase {
 
     private final Servo elevatioSpoon;
 
-    private final double DOWN = 0;
-    private final double UP = 0.4549;
+    private final double DOWN = 0.753;
+    private final double UP = 0.419;
     public static final long TIME_BETWEEN_UP_AND_DOWN = 500;
    // private final double OFFSET_LEFT = 0.170;
    // private final double OFFSET_RIGHT = 0.1;

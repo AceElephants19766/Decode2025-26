@@ -4,21 +4,23 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.controller.PIDController;
+import com.bylazar.configurables.annotations.Configurable;
+import com.bylazar.telemetry.PanelsTelemetry;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-@Config
+@Configurable
 public class ShooterPID extends SubsystemBase {
 //    private final DcMotorEx motorRight;
-    private final DcMotorEx lowerMotor;
+    private final DcMotorEx lowerMotor; //
     private final DcMotorEx upperMotor;
     public final PIDController pidController;
 
-    public static double kP = 0.2;
-    public static double kI = 0;
-    public static double kD = 0.0005;
-    private double kF = 0.05;
+    public static double kP = 0.015;
+    public static double kI = 0.1;
+    public static double kD = 0;
+    private final double TOLERANCE = 20;
 
     private final double TICKS_PER_REVOLUTION = 28;
     private final double RATIO = 20./20.;
@@ -27,8 +29,9 @@ public class ShooterPID extends SubsystemBase {
     public ShooterPID(HardwareMap hardwareMap) {
         lowerMotor = hardwareMap.get(DcMotorEx.class, "lowerMotor");
         upperMotor = hardwareMap.get(DcMotorEx.class, "upperMotor");
-        upperMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        lowerMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         pidController = new PIDController(kP, kI, kD);
+        pidController.setTolerance(TOLERANCE);
     }
 
     public double getRPM() {
@@ -41,20 +44,22 @@ public class ShooterPID extends SubsystemBase {
         lowerMotor.setPower(power);
     }
 
-    public double getkF() {
-        return kF;
-    }
-
     @Override
     public void periodic() {
-        FtcDashboard.getInstance().getTelemetry().addData(
+
+        PanelsTelemetry.INSTANCE.getTelemetry().addData(
                 "RPM",
                 getRPM()
         );
-        FtcDashboard.getInstance().getTelemetry().addData(
+
+        PanelsTelemetry.INSTANCE.getTelemetry().addData(
                 "target",
                 pidController.getSetPoint()
         );
+
+        PanelsTelemetry.INSTANCE.getTelemetry().addData(
+                "power",
+                lowerMotor.getPower()
+        );
     }
 }
-

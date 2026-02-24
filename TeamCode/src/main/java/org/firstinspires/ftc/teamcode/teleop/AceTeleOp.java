@@ -4,14 +4,19 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.PerpetualCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
+import com.bylazar.panels.Panels;
+import com.bylazar.telemetry.PanelsTelemetry;
 import com.pedropathing.geometry.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.commands.Drive;
+import org.firstinspires.ftc.teamcode.commands.GetHoodToAngleInterp;
+import org.firstinspires.ftc.teamcode.commands.HoodSetPosition;
 import org.firstinspires.ftc.teamcode.commands.IntakeActivate;
 import org.firstinspires.ftc.teamcode.commands.IntakeDeactivate;
 import org.firstinspires.ftc.teamcode.commands.ResetIMU;
@@ -54,6 +59,7 @@ public class AceTeleOp extends CommandOpMode {
         turret = new Turret(hardwareMap);
         elevationSpoon = new ElevationSpoon(hardwareMap);
         braker = new Braker(hardwareMap);
+        hood = new Hood(hardwareMap);
 
 
         garyDrivetrain.getFollower().setStartingPose(new Pose());
@@ -70,12 +76,16 @@ public class AceTeleOp extends CommandOpMode {
         );
 
         gamepadEx2.getGamepadButton(GamepadKeys.Button.X).toggleWhenPressed(
-                new ShooterGetToRPM(shooterPID, -5500)
+                new ShooterGetToRPM(shooterPID, 2500)
         );
 
         gamepadEx2.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).toggleWhenPressed(
                 new IntakeActivate(intake),
                 new IntakeDeactivate(intake)
+        );
+
+        gamepadEx2.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(
+                new HoodSetPosition(hood, () -> Hood.TUNING_POS)
         );
 
         gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
@@ -101,15 +111,9 @@ public class AceTeleOp extends CommandOpMode {
                 )
         );
 
-        gamepadEx2.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
-                new InstantCommand(
-                        () -> hood.setPosition(Hood.HOOD_POSITION)
-                )
-        );
-
         gamepadEx2.getGamepadButton(GamepadKeys.Button.B).toggleWhenPressed(
                 new InstantCommand(
-                        () -> shooterPID.setPower(-1)
+                        () -> shooterPID.setPower(1)
                 ),
                 new InstantCommand(
                         () -> shooterPID.setPower(0)
@@ -125,6 +129,10 @@ public class AceTeleOp extends CommandOpMode {
         );
 
         CommandScheduler.getInstance().setDefaultCommand(garyDrivetrain, new Drive(garyDrivetrain, gamepad1));
+
+/*        hood.setDefaultCommand(
+                new PerpetualCommand(new GetHoodToAngleInterp(garyDrivetrain, hood, false))
+        );*/
 
         //todo: make sure legal
         //   spindexer.updatePos();
@@ -145,9 +153,10 @@ public class AceTeleOp extends CommandOpMode {
         //  telemetry.addData("servoPosition", conveyor.());
 //        telemetry.addData("frontLeftPower", frontLeft.getPower());
 
-        telemetry.update();
-        FtcDashboard.getInstance().getTelemetry().update();
 
+
+        PanelsTelemetry.INSTANCE.getTelemetry().update();
+        telemetry.update();
     }
 
 }

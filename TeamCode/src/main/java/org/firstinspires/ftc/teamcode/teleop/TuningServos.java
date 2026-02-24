@@ -8,13 +8,13 @@ import com.qualcomm.robotcore.hardware.Servo;
 @TeleOp
 public class TuningServos extends CommandOpMode {
 
-    private Servo leftServo;
     private Servo rightServo;
+    private Servo leftServo;
 
     @Override
     public void initialize() {
-        leftServo = hardwareMap.get(Servo.class, "leftServo");
         rightServo = hardwareMap.get(Servo.class, "rightServo");
+        leftServo = hardwareMap.get(Servo.class, "leftServo");
     }
 
     @Override

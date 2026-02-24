@@ -4,11 +4,13 @@ import com.arcrobotics.ftclib.command.InstantCommand;
 
 import org.firstinspires.ftc.teamcode.subsystem.Hood;
 
+import java.util.function.DoubleSupplier;
+
 public class HoodSetPosition extends InstantCommand {
 
-    public HoodSetPosition(Hood hood, double position) {
+    public HoodSetPosition(Hood hood, DoubleSupplier position) {
         super(
-                () -> hood.setPosition(position),
+                () -> hood.setPosition(position.getAsDouble()),
                 hood
         );
     }
