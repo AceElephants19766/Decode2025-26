@@ -104,6 +104,12 @@ public class RedWallTeleOp extends CommandOpMode {
                 )
         );
 
+    /*    gamepadEx1.getGamepadButton(GamepadKeys.Button.X).toggleWhenPressed(
+                new InstantCommand(
+                        () -> turret.
+                )
+        )*/
+
         gamepadEx2.getGamepadButton(GamepadKeys.Button.B).toggleWhenPressed(
                 new InstantCommand(
                         () -> shooterPID.setPower(1)

@@ -26,7 +26,7 @@ public class Turret extends SubsystemBase {
     //Constants
     private final double REV_TO_ANGLE = 360;
     private final double TICKS_PER_REV = 537.7;
-    private final double RATIO = 37 / 160;
+    private final double RATIO = 333./8672;
 
     public Turret(HardwareMap hardwareMap) {
         turret = hardwareMap.get(DcMotorEx.class, "turret");
@@ -48,11 +48,11 @@ public class Turret extends SubsystemBase {
     @Override
     public void periodic() {
         PanelsTelemetry.INSTANCE.getTelemetry().addData(
-                "targetedAngle", turret.getTargetPosition()
+                "turretTarget", turret.getTargetPosition()
         );
 
         PanelsTelemetry.INSTANCE.getTelemetry().addData(
-                "currentPosition", turret.getCurrentPosition()
+                "turretAngle", turret.getCurrentPosition()
         );
     }
 }

@@ -48,17 +48,17 @@ public class ShooterPID extends SubsystemBase {
     public void periodic() {
 
         PanelsTelemetry.INSTANCE.getTelemetry().addData(
-                "RPM",
+                "shooterRPM",
                 getRPM()
         );
 
         PanelsTelemetry.INSTANCE.getTelemetry().addData(
-                "target",
+                "shooterTarget",
                 pidController.getSetPoint()
         );
 
         PanelsTelemetry.INSTANCE.getTelemetry().addData(
-                "power",
+                "shooterPower",
                 lowerMotor.getPower()
         );
     }
