@@ -18,7 +18,7 @@ public class ShooterPID extends SubsystemBase {
     public final PIDController pidController;
 
     public static double kP = 0.015;
-    public static double kI = 0.1;
+    public static double kI = 0.2;
     public static double kD = 0;
     private final double TOLERANCE = 20;
 

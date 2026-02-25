@@ -151,13 +151,9 @@ public class AceTeleOp extends CommandOpMode {
 
         CommandScheduler.getInstance().setDefaultCommand(garyDrivetrain, new Drive(garyDrivetrain, gamepad1));
 
-/*        hood.setDefaultCommand(
+        hood.setDefaultCommand(
                 new GetHoodToAngleInterp(garyDrivetrain, hood, isBlue)
-        );*/
-
-        //todo: make sure legal
-        //   spindexer.updatePos();
-
+        );
     }
 
     @Override
@@ -180,5 +176,4 @@ public class AceTeleOp extends CommandOpMode {
         PanelsTelemetry.INSTANCE.getTelemetry().update();
         telemetry.update();
     }
-
 }

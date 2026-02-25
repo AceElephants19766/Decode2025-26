@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.teamcode.utils.MathUtil;
 import org.firstinspires.ftc.teamcode.utils.ProfiledPIDController;
 import org.firstinspires.ftc.teamcode.utils.TrapezoidProfile;
 
@@ -24,8 +25,9 @@ public class Turret extends SubsystemBase {
     public static double kD = 0.;
     private final double TOLERANCE = 5;
 
-    public static double MAX_VELOCITY = Integer.MAX_VALUE;
+    public static double MAX_VELOCITY = 120;
     public static double MAX_ACCELERATION = 60;
+    public static double MAX_POWER = 0.5;
 
     //Constants
     private final double REV_TO_ANGLE = 360;
@@ -60,6 +62,7 @@ public class Turret extends SubsystemBase {
     }
 
     public void setPower(double power) {
+        power = MathUtil.clamp(power, -MAX_POWER, MAX_POWER);
         turretMotor.setPower(power);
     }
 
@@ -75,6 +78,10 @@ public class Turret extends SubsystemBase {
 
         PanelsTelemetry.INSTANCE.getTelemetry().addData(
                 "turretVel", getVelocity()
+        );
+
+        PanelsTelemetry.INSTANCE.getTelemetry().addData(
+                "turretPower", turretMotor.getPower()
         );
     }
 }

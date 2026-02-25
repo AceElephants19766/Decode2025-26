@@ -6,6 +6,8 @@ import com.bylazar.configurables.annotations.Configurable;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.utils.MathUtil;
+
 @Configurable
 public class Hood extends SubsystemBase {
 
@@ -14,15 +16,15 @@ public class Hood extends SubsystemBase {
     public static final double MIN_POS = 0.55;
     public static final double MAX_POS = 0.94;
 
-    public static double TUNING_POS = MAX_POS;
+    public static double TUNING_POS = 0.69;
 
     public InterpLUT hoodTable;
 
     public void setTable() {
         hoodTable = new InterpLUT();
-        hoodTable.add(0,0);
-        hoodTable.add(0,0);
-//        hoodTable.createLUT();
+        hoodTable.add(42.3867,0.69);
+        hoodTable.add(88.768,0.8);
+        hoodTable.createLUT();
     }
 
     public Hood(HardwareMap hardwareMap) {
@@ -31,7 +33,7 @@ public class Hood extends SubsystemBase {
     }
 
     public void setPosition(double position) {
-        position = Math.max(position, MIN_POS);
+        position = MathUtil.clamp(position, MIN_POS, MAX_POS);
         hood.setPosition(position);
     }
 
