@@ -20,6 +20,10 @@ public class Braker extends SubsystemBase {
         braker.setPosition(position);
     }
 
+    public boolean isBlocking() {
+        return braker.getPosition() < (FREE - 0.05);
+    }
+
     public void blocking() {
         setPosition(BLOCKING);
     }

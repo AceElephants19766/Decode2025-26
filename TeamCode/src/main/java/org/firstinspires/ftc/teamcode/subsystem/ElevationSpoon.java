@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public class ElevationSpoon extends SubsystemBase {
 
-    private final Servo elevatioSpoon;
+    private final Servo elevationSpoon;
 
     private final double DOWN = 0.753;
     private final double UP = 0.419;
@@ -15,13 +15,17 @@ public class ElevationSpoon extends SubsystemBase {
    // private final double OFFSET_RIGHT = 0.1;
 
     public ElevationSpoon(HardwareMap hardwareMap) {
-        elevatioSpoon = hardwareMap.get(Servo.class, "elevationSpoon");
+        elevationSpoon = hardwareMap.get(Servo.class, "elevationSpoon");
 
     }
 
     public void setPosition(double position) {
-        elevatioSpoon.setPosition(position);
+        elevationSpoon.setPosition(position);
 
+    }
+
+    public boolean isDown() {
+        return elevationSpoon.getPosition() > (UP + 0.05);
     }
 
     public void down() {

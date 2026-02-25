@@ -112,8 +112,6 @@ public class AceTeleOp extends CommandOpMode {
                 )
         );
 
-        //  gamepadEx1.getGamepadButton().
-
         gamepadEx1.getGamepadButton(GamepadKeys.Button.DPAD_UP).toggleWhenPressed(
                 new InstantCommand(
                         () -> braker.blocking()
@@ -123,31 +121,9 @@ public class AceTeleOp extends CommandOpMode {
                 )
         );
 
-        gamepadEx2.getGamepadButton(GamepadKeys.Button.X).whenPressed(
-                new TurretGetToAngle(
-                        turret, () -> 90
-                )
-        );
-
-        gamepadEx2.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
-                new TurretGetToAngle(
-                        turret, () -> -90
-                )
-        );
-
-        gamepadEx2.getGamepadButton(GamepadKeys.Button.B).whenPressed(
-                new TurretGetToAngle(
-                        turret, () -> 0
-                )
-        );
-
         gamepadEx1.getGamepadButton(GamepadKeys.Button.B).toggleWhenPressed(
                 new TurretAlignToGoalExecute(turret, garyDrivetrain, isBlue)
         );
-
-//        gamepadEx1.getGamepadButton(GamepadKeys.Button.START).whenPressed(
-//                new ResetIMU(garyDrivetrain)
-//        );
 
         CommandScheduler.getInstance().setDefaultCommand(garyDrivetrain, new Drive(garyDrivetrain, gamepad1));
 
@@ -162,16 +138,8 @@ public class AceTeleOp extends CommandOpMode {
 
         garyDrivetrain.getFollower().update();
 
-        telemetry.addData("startingPose", startingPose);
-
-//        telemetry.addData("RPM", shooterPID.getRPM());
-//        telemetry.addData("joystickX", gamepad2.right_stick_x);
-//        telemetry.addData("joystickY", gamepad2.right_stick_y);
-        telemetry.addData("imu angle", Math.toDegrees(garyDrivetrain.getHeadingNormal()));
-
-        //  telemetry.addData("servoPosition", conveyor.());
-//        telemetry.addData("frontLeftPower", frontLeft.getPower());
-
+        telemetry.addData("isElevationSpoonDown", elevationSpoon.isDown());
+        telemetry.addData("isShooterBlocked", braker.isBlocking());
 
         PanelsTelemetry.INSTANCE.getTelemetry().update();
         telemetry.update();
