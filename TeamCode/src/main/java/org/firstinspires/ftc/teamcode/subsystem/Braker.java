@@ -8,7 +8,7 @@ public class Braker extends SubsystemBase {
 
     private final Servo braker;
 
-    private final double BLOCKING = 0.694;
+    private final double BLOCKING = 0.5;
     private final double FREE = 0.94;
 
 

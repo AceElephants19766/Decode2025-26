@@ -28,7 +28,7 @@ public class Turret extends SubsystemBase {
     public static double MAX_VELOCITY = 120;
     public static double MAX_ACCELERATION = 60;
     public static double MAX_POWER = 0.5;
-
+    public double OFFSET = 0;
     //Constants
     private final double REV_TO_ANGLE = 360;
     private final double TICKS_PER_REV = 537.7;
@@ -54,7 +54,7 @@ public class Turret extends SubsystemBase {
     }
 
     public double getPosition() {
-        return convertEncoderValToTurretAngle(turretMotor.getCurrentPosition());
+        return convertEncoderValToTurretAngle(turretMotor.getCurrentPosition()) - OFFSET;
     }
 
     public double getVelocity() {

@@ -3,9 +3,11 @@ package org.firstinspires.ftc.teamcode.teleop;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.PerpetualCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
+import com.arcrobotics.ftclib.command.WaitUntilCommand;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.bylazar.telemetry.PanelsTelemetry;
@@ -16,6 +18,7 @@ import org.firstinspires.ftc.teamcode.commands.GetHoodToAngleInterp;
 import org.firstinspires.ftc.teamcode.commands.HoodSetPosition;
 import org.firstinspires.ftc.teamcode.commands.IntakeActivate;
 import org.firstinspires.ftc.teamcode.commands.IntakeDeactivate;
+import org.firstinspires.ftc.teamcode.commands.IntakeReversed;
 import org.firstinspires.ftc.teamcode.commands.ResetIMU;
 import org.firstinspires.ftc.teamcode.commands.ShooterGetToRPM;
 import org.firstinspires.ftc.teamcode.commands.TurretAlignToGoal;
@@ -46,6 +49,8 @@ public class AceTeleOp extends CommandOpMode {
 
     private boolean isBlue;
     private boolean isNextToWall;
+
+    boolean firstIteration = true;
 
     private Pose startingPose;
 
@@ -86,7 +91,16 @@ public class AceTeleOp extends CommandOpMode {
         );
 
         gamepadEx1.getGamepadButton(GamepadKeys.Button.X).toggleWhenPressed(
-                new ShooterGetToRPM(shooterPID, 2500)
+                new ParallelCommandGroup(
+                        new ShooterGetToRPM(shooterPID, 2500),
+                        new WaitUntilCommand(
+                                () -> shooterPID.getRPM() > 2300
+                        ).andThen(new InstantCommand(() -> braker.free()))
+                ),
+                new ParallelCommandGroup(
+                        new InstantCommand(() -> shooterPID.setPower(0), shooterPID),
+                        new InstantCommand(() -> braker.blocking())
+                )
         );
 
         gamepadEx1.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).toggleWhenPressed(
@@ -125,6 +139,27 @@ public class AceTeleOp extends CommandOpMode {
                 new TurretAlignToGoalExecute(turret, garyDrivetrain, isBlue)
         );
 
+        gamepadEx1.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
+                new InstantCommand(
+                        () -> turret.OFFSET = turret.getPosition()
+                )
+        );
+
+        gamepadEx2.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).toggleWhenPressed(
+                new InstantCommand(
+                        () -> conveyor.SetPower(1)
+                ),
+                new InstantCommand(
+                        () -> conveyor.SetPower(0)
+                )
+        );
+
+        gamepadEx2.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).toggleWhenPressed(
+                new IntakeReversed(intake),
+                new IntakeDeactivate(intake)
+        );
+
+
         CommandScheduler.getInstance().setDefaultCommand(garyDrivetrain, new Drive(garyDrivetrain, gamepad1));
 
         hood.setDefaultCommand(
@@ -136,6 +171,13 @@ public class AceTeleOp extends CommandOpMode {
     public void run() {
         super.run();
 
+        if(firstIteration) {
+            braker.blocking();
+            elevationSpoon.down();
+
+            firstIteration = false;
+
+        }
         garyDrivetrain.getFollower().update();
 
         telemetry.addData("isElevationSpoonDown", elevationSpoon.isDown());

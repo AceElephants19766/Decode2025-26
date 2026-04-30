@@ -14,7 +14,6 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class ShooterPID extends SubsystemBase {
 //    private final DcMotorEx motorRight;
     private final DcMotorEx lowerMotor; //
-    private final DcMotorEx upperMotor;
     public final PIDController pidController;
 
     public static double kP = 0.015;
@@ -28,7 +27,6 @@ public class ShooterPID extends SubsystemBase {
 
     public ShooterPID(HardwareMap hardwareMap) {
         lowerMotor = hardwareMap.get(DcMotorEx.class, "lowerMotor");
-        upperMotor = hardwareMap.get(DcMotorEx.class, "upperMotor");
         lowerMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         pidController = new PIDController(kP, kI, kD);
         pidController.setTolerance(TOLERANCE);
@@ -40,7 +38,6 @@ public class ShooterPID extends SubsystemBase {
 
     public void setPower(double power) {
 //        motorRight.setPower(power);
-        upperMotor.setPower(power);
         lowerMotor.setPower(power);
     }
 
