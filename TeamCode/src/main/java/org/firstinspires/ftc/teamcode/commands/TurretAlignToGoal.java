@@ -24,9 +24,9 @@ public class TurretAlignToGoal extends TurretGetToAngle {
                             absAngle - garyDrivetrain.getFollower().getHeading()
                     );
 
-                    turretAngle = (turretAngle > 90) ? 90 : turretAngle;
+                    turretAngle = (turretAngle > 180) ? 180 : turretAngle;
 
-                    turretAngle = (turretAngle < -90) ? -90 : turretAngle;
+                    turretAngle = (turretAngle < -180) ? -180 : turretAngle;
 
                     PanelsTelemetry.INSTANCE.getTelemetry().addData(
                             "turretAlignToAngle", turretAngle

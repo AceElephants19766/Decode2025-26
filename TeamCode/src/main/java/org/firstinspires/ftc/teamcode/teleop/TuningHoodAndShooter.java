@@ -34,9 +34,9 @@ public class TuningHoodAndShooter extends CommandOpMode {
     public void run() {
         super.run();
 
-        gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(
-                new ShooterGetToRPM(shooterPID, -2200)
-        );
+//        gamepadEx1.getGamepadButton(GamepadKeys.Button.B).whenPressed(
+//                new ShooterGetToRPM(shooterPID, -2200)
+//        );
 
         gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
                 new InstantCommand(

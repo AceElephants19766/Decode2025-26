@@ -122,6 +122,12 @@ public class AceTeleOp extends CommandOpMode {
                         ),
                         new InstantCommand(
                                 () -> elevationSpoon.down()
+                        ),
+                        new WaitCommand(
+                                ElevationSpoon.TIME_BETWEEN_UP_AND_DOWN
+                        ),
+                        new InstantCommand(
+                                () -> elevationSpoon.stop()
                         )
                 )
         );
@@ -171,16 +177,16 @@ public class AceTeleOp extends CommandOpMode {
     public void run() {
         super.run();
 
-        if(firstIteration) {
+        if (firstIteration) {
             braker.blocking();
-            elevationSpoon.down();
+            elevationSpoon.stop();
 
             firstIteration = false;
 
         }
         garyDrivetrain.getFollower().update();
 
-        telemetry.addData("isElevationSpoonDown", elevationSpoon.isDown());
+        //telemetry.addData("isElevationSpoonDown", elevationSpoon.isDown());
         telemetry.addData("isShooterBlocked", braker.isBlocking());
 
         PanelsTelemetry.INSTANCE.getTelemetry().update();

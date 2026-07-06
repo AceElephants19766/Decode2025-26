@@ -11,7 +11,7 @@ public class Intake extends SubsystemBase {
     public final DcMotorEx intakeMotor;
 
 
-    public static final double ACTIVE_POWER = 1; // hi dude how are you; im good wbu?
+    public static final double ACTIVE_POWER = 1; // hi dude how are you; im good wbu? not good the robot broken
     public static final double REVERSED_POWER = -1;
     public Intake(HardwareMap hardwareMap) {
         intakeMotor = hardwareMap.get(DcMotorEx.class, "intakeMotor");

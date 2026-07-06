@@ -10,18 +10,19 @@ public class Conveyor extends SubsystemBase {
     private final DcMotorEx conveyorMotor;
     private final CRServo conveyorServo;
     private final CRServo secondConveyorServo;
-
+    private final CRServo thirdConveyorServo;
     public Conveyor(HardwareMap hardwareMap) {
         conveyorMotor = hardwareMap.get(DcMotorEx.class, "conveyorMotor");
         conveyorServo = hardwareMap.get(CRServo.class, "conveyorServo");
         secondConveyorServo = hardwareMap.get(CRServo.class, "secondConveyorServo");
-
+        thirdConveyorServo = hardwareMap.get(CRServo.class, "thirdConveyorServo");
     }
 
     public void SetPower(double power) {
         conveyorMotor.setPower(power);
         conveyorServo.setPower(-power);
         secondConveyorServo.setPower(-power);
+        thirdConveyorServo.setPower(power);
     }
 
 
